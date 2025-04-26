@@ -1,0 +1,64 @@
+# Ignore build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]eploy/
+[Dd]eployments/
+bin/
+obj/
+
+# User-specific files
+.vs/
+.idea/
+.vscode/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer files for Visual Studio
+.vs2019/
+.vs2017/
+.vs2015/
+
+# Windows Installer and other temporary files
+Thumbs.db
+Desktop.ini
+
+# Docker and WSL
+Dockerfile*
+docker-compose*
+.docker/
+*.docker/
+
+# User specific files (Visual Studio, Rider, etc.)
+.vsconfig
+
+# ASP.NET files
+wwwroot/
+
+# JetBrains Rider and ReSharper
+.idea/
+
+# OS generated files
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Ignore logs
+*.log
+
+# Ignore Docker Compose file overrides
+docker-compose.override.yml
+
+# Ignore Node.js modules (if using frontend with Node.js)
+node_modules/
+
+# Ignore Visual Studio for Mac files
+.vscode/
+
+# Ignore the configuration files from dotnet CLI
+.globalconfig
+.nuget/
