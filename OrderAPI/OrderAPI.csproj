@@ -9,6 +9,12 @@
 	<ItemGroup>
 		<PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-	</ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.1" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+	</ItemGroup>	 
+
+	<ItemGroup>
+	 <ProjectReference Include="..\OrderCommonModels\OrderCommonModels.csproj" />
+    </ItemGroup>
 
 </Project>

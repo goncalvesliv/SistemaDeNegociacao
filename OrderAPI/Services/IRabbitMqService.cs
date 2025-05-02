@@ -1,5 +1,5 @@
-﻿using OrdemAPI.Models;
-using System.Threading.Tasks; // não esqueça
+﻿using OrderCommonModels.Models;
+using System.Threading.Tasks; 
 
 namespace OrdemApi.Services
 {

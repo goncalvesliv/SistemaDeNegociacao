@@ -1,8 +1,8 @@
-﻿using OrdemAPI.Models;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 using OrdemApi.Services;
+using OrderCommonModels.Models;
 
 namespace OrdemApi.Services
 {

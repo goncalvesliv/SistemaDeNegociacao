@@ -1,3 +1,4 @@
+using OrdemApi.Repositories;
 using OrdemApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,13 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
+
+builder.Services.AddSingleton<NegociacoesRepository>(sp =>
+{
+    var connectionString = "Server=DESKTOP-3IP3FRO;Database=NegociacoesDb;Trusted_Connection=True;TrustServerCertificate=True;";
+    return new NegociacoesRepository(connectionString);
+});
+
 
 
 builder.Services.AddSingleton<IRabbitMqService, RabbitMqService>();

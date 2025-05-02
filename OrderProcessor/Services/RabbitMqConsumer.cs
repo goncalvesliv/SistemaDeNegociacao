@@ -1,11 +1,8 @@
-﻿
-
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
-using OrdemAPI.Models;
-using System.Runtime.Intrinsics.Arm;
+using OrderCommonModels.Models;
 
 namespace OrderProcessor.Services
 {
