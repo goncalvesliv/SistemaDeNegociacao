@@ -65,7 +65,7 @@ namespace OrderUI
             }
             else
             {
-                MessageBox.Show("Erro ao carregar negócios realizados.");
+                MessageBox.Show("Erro ao carregar neg?cios realizados.");
             }
         }
 
@@ -77,52 +77,28 @@ namespace OrderUI
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                var caminhoArquivo = openFileDialog1.FileName;
+                var filePath = openFileDialog1.FileName;
 
-                try
+                using var client = new HttpClient();
+                using var content = new MultipartFormDataContent();
+                using var fileStream = File.OpenRead(filePath);
+                using var fileContent = new StreamContent(fileStream);
+
+                fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
+                content.Add(fileContent, "file", Path.GetFileName(filePath));
+
+                var response = await client.PostAsync("https://localhost:7083/api/Ordem/upload", content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    var linhas = File.ReadAllLines(caminhoArquivo);
-                    var ordens = new List<Ordem>();
-
-                    foreach (var linha in linhas)
-                    {
-                        if (string.IsNullOrWhiteSpace(linha)) continue;
-
-                        var partes = linha.Split(';');
-
-                        if (partes.Length < 4) continue;
-
-                        var ordem = new Ordem
-                        {
-                            TipoOrdem = partes[0],
-                            NomeAtivo = partes[1],
-                            Preco = decimal.Parse(partes[2].Replace(",", "."), CultureInfo.InvariantCulture),
-                            Quantidade = int.Parse(partes[3])
-                        };
-
-                        ordens.Add(ordem);
-                    }
-
-
-                    var client = new HttpClient();
-                    var response = await client.PostAsJsonAsync("https://localhost:7083/api/Ordem/upload", ordens);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        MessageBox.Show("Ordens enviadas com sucesso!");
-                        CarregarOrdensProcessadas();
-                        CarregarNegociosRealizados();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Erro ao enviar as ordens.");
-                    }
-
-                    dgvOrdens.DataSource = ordens;
+                    MessageBox.Show("Ordens enviadas com sucesso!");
+                    CarregarOrdensProcessadas();
+                    CarregarNegociosRealizados();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Erro ao processar o CSV: " + ex.Message);
+                    string erro = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Erro ao enviar as ordens. Status: {response.StatusCode}\nDetalhes: {erro}");
                 }
             }
         }

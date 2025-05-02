@@ -13,5 +13,6 @@ namespace OrderCommonModels.Models
         public decimal Preco { get; set; }
         public int Quantidade { get; set; }
         public string Status { get; set; } = string.Empty;
+        public DateTime DataCriacao { get; set; } = DateTime.Now;
     }
 }

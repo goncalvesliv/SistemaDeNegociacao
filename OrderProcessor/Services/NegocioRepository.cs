@@ -22,14 +22,13 @@ namespace OrderProcessor.Services
             using var connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
 
-            var query = @"INSERT INTO Negocios (NomeAtivo, Preco, Quantidade, Data)
-                          VALUES (@NomeAtivo, @Preco, @Quantidade, @Data)";
+            var query = @"INSERT INTO Negocios (NomeAtivo, Preco, Quantidade)
+                          VALUES (@NomeAtivo, @Preco, @Quantidade)";
 
             using var command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@NomeAtivo", negocio.NomeAtivo);
             command.Parameters.AddWithValue("@Preco", negocio.Preco);
             command.Parameters.AddWithValue("@Quantidade", negocio.Quantidade);
-            command.Parameters.AddWithValue("@Data", negocio.Data);
 
             await command.ExecuteNonQueryAsync();
         }
