@@ -43,7 +43,12 @@ namespace OrderUI
             {
                 var ordensProcessadas = await response.Content.ReadFromJsonAsync<List<Ordem>>();
 
-                dgvOrdens.AutoGenerateColumns = true;
+                dgvOrdens.AutoGenerateColumns = false;
+
+                dgvOrdens.Columns.Clear();
+
+                AdicionarColunasAoDataGridView();
+
                 dgvOrdens.DataSource = ordensProcessadas;
             }
             else
@@ -51,6 +56,27 @@ namespace OrderUI
                 MessageBox.Show("Erro ao carregar ordens processadas.");
             }
         }
+
+            private void AdicionarColunasAoDataGridView()
+            {
+                var colunas = new (string Header, string Property)[]
+                {
+            ("Tipo Ordem", "TipoOrdem"),
+            ("Nome Ativo", "NomeAtivo"),
+            ("Preço", "Preco"),
+            ("Quantidade", "Quantidade")
+                };
+
+                foreach (var coluna in colunas)
+                {
+                    dgvOrdens.Columns.Add(new DataGridViewTextBoxColumn
+                    {
+                        HeaderText = coluna.Header,
+                        DataPropertyName = coluna.Property
+                    });
+                }
+            }
+
 
 
         private async void CarregarNegociosRealizados()
