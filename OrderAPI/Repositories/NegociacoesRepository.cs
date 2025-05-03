@@ -14,7 +14,7 @@ namespace OrdemApi.Repositories
             _connectionString = connectionString;
         }
 
-        public async Task<List<OrdemProcessada>> ObterOrdensProcessadas()
+        public virtual async Task<List<OrdemProcessada>> ObterOrdensProcessadas()
         {
             var ordensProcessadas = new List<OrdemProcessada>();
             using (var connection = new SqlConnection(_connectionString))
