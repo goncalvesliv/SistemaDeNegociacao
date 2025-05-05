@@ -11,11 +11,14 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
+
+var connectionString = builder.Configuration.GetConnectionString("NegociacoesDb");
+
 builder.Services.AddSingleton<NegociacoesRepository>(sp =>
 {
-    var connectionString = "Server=DESKTOP-3IP3FRO;Database=NegociacoesDb;Trusted_Connection=True;TrustServerCertificate=True;";
     return new NegociacoesRepository(connectionString);
 });
+
 
 
 

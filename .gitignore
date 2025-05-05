@@ -27,12 +27,6 @@ obj/
 Thumbs.db
 Desktop.ini
 
-# Docker and WSL
-Dockerfile*
-docker-compose*
-.docker/
-*.docker/
-
 # User specific files (Visual Studio, Rider, etc.)
 .vsconfig
 
@@ -49,12 +43,6 @@ Desktop.ini
 
 # Ignore logs
 *.log
-
-# Ignore Docker Compose file overrides
-docker-compose.override.yml
-
-# Ignore Node.js modules (if using frontend with Node.js)
-node_modules/
 
 # Ignore Visual Studio for Mac files
 .vscode/
