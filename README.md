@@ -38,6 +38,24 @@ No projeto OrderAPI e OrderProcessor, edite o arquivo appsettings.json com a sua
   "NegociacoesDb": "Server=SEU_SERVIDOR;Database=NomeBanco;User Id=SEU_USUARIO;Password=SENHA;"
 }
 
+e depois crie duas tabelas no SqlServer 
+
+CREATE TABLE Negocios (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    NomeAtivo NVARCHAR(50) NOT NULL,
+    Preco DECIMAL(18,6) NOT NULL,
+    Quantidade INT NOT NULL,
+);
+
+CREATE TABLE OrdemProcessada (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    TipoOrdem NVARCHAR(1) NOT NULL,
+    NomeAtivo NVARCHAR(50) NOT NULL,
+    Preco DECIMAL(18,6) NOT NULL,
+    Quantidade INT NOT NULL,
+    Status NVARCHAR(30) NOT NULL,
+);
+
 ### 3. Como executar o RabbitMQ com Docker
 Para que a API publique e o processor consuma as ordens, é necessário que o RabbitMQ esteja rodando.
 
