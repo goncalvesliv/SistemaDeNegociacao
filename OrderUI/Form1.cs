@@ -57,25 +57,26 @@ namespace OrderUI
             }
         }
 
-            private void AdicionarColunasAoDataGridView()
+        private void AdicionarColunasAoDataGridView()
+        {
+            var colunas = new (string Header, string Property)[]
             {
-                var colunas = new (string Header, string Property)[]
-                {
             ("Tipo Ordem", "TipoOrdem"),
             ("Nome Ativo", "NomeAtivo"),
             ("Preço", "Preco"),
-            ("Quantidade", "Quantidade")
-                };
+            ("Quantidade", "Quantidade"),
+            ("Status", "Status")
+            };
 
-                foreach (var coluna in colunas)
+            foreach (var coluna in colunas)
+            {
+                dgvOrdens.Columns.Add(new DataGridViewTextBoxColumn
                 {
-                    dgvOrdens.Columns.Add(new DataGridViewTextBoxColumn
-                    {
-                        HeaderText = coluna.Header,
-                        DataPropertyName = coluna.Property
-                    });
-                }
+                    HeaderText = coluna.Header,
+                    DataPropertyName = coluna.Property
+                });
             }
+        }
 
 
 
@@ -123,8 +124,8 @@ namespace OrderUI
                 }
                 else
                 {
-                    string erro = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Erro ao enviar as ordens. Status: {response.StatusCode}\nDetalhes: {erro}");
+                    var erroDetalhado = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Erro ao enviar as ordens:\n{erroDetalhado}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

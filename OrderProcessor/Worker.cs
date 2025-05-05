@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OrderCommonModels.Models;
 using OrderProcessor.Services;
@@ -14,12 +15,12 @@ namespace OrderProcessor
         private readonly List<Ordem> _ordensCompra = new();
         private readonly List<Ordem> _ordensVenda = new();
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(ILogger<Worker> logger, IConfiguration configuration)
         {
             _logger = logger;
             _consumer = new RabbitMqConsumer();
 
-            var connectionString = "Server=DESKTOP-3IP3FRO;Database=NegociacoesDb;Trusted_Connection=True;TrustServerCertificate=True;";
+            var connectionString = configuration.GetConnectionString("NegociacoesDb");
             _repository = new NegocioRepository(connectionString);
         }
 

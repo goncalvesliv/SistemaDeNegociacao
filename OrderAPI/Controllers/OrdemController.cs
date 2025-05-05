@@ -2,6 +2,7 @@
 using OrdemApi.Services;
 using OrdemApi.Repositories;
 using OrderCommonModels.Models;
+using System.Globalization;
 
 namespace OrdemApi.Controllers
 {
@@ -18,34 +19,58 @@ namespace OrdemApi.Controllers
             _negociacoesRepository = negociacoesRepository; 
         }
 
+
         [HttpPost("upload")]
         public async Task<IActionResult> UploadCsv(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("Nenhum arquivo enviado.");
 
-            using var stream = new StreamReader(file.OpenReadStream());
-            while (!stream.EndOfStream)
-            {
-                var line = await stream.ReadLineAsync();
-                var parts = line.Split(';');
+            using var reader = new StreamReader(file.OpenReadStream());
+            string linha;
+            int linhaAtual = 0;
 
-                if (parts.Length < 4)
-                    continue;
+            var ordens = new List<Ordem>();
+
+            while ((linha = await reader.ReadLineAsync()) != null)
+            {
+                linhaAtual++;
+                var partes = linha.Split(';');
+
+                if (partes.Length < 4)
+                    return BadRequest($"Linha {linhaAtual} está com formato inválido. Esperado: TipoOrdem;NomeAtivo;Preco;Quantidade");
+
+                var tipoOrdem = partes[0];
+                var nomeAtivo = partes[1];
+                var precoStr = partes[2];
+                var quantidadeStr = partes[3];
+
+                if (!decimal.TryParse(precoStr, NumberStyles.Any, new CultureInfo("pt-BR"), out decimal preco) ||
+                    !int.TryParse(quantidadeStr, out int quantidade))
+                {
+                    return BadRequest($"Linha {linhaAtual} contém dados inválidos (preço ou quantidade).");
+                }
 
                 var ordem = new Ordem
                 {
-                    TipoOrdem = parts[0],
-                    NomeAtivo = parts[1],
-                    Preco = decimal.Parse(parts[2]),
-                    Quantidade = int.Parse(parts[3])
+                    TipoOrdem = tipoOrdem,
+                    NomeAtivo = nomeAtivo,
+                    Preco = preco,
+                    Quantidade = quantidade,
+                    DataCriacao = DateTime.UtcNow
                 };
 
+                ordens.Add(ordem);
+            }
+
+            foreach (var ordem in ordens)
+            {
                 await _rabbitMqService.PublishOrderAsync(ordem);
             }
 
             return Ok("Arquivo processado e ordens enviadas!");
         }
+
 
         [HttpGet("ordens-processadas")]
         public async Task<ActionResult<List<OrdemProcessada>>> GetOrdensProcessadas()

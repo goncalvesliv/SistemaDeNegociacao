@@ -45,10 +45,8 @@ public class OrdemControllerTests
 
         var controller = new OrdemController(mockRabbitMq.Object, mockRepo.Object);
 
-        // Act
         var result = await controller.GetOrdensProcessadas();
 
-        // Assert
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
         var returnedList = Assert.IsType<List<OrdemProcessada>>(okResult.Value);
         Assert.Single(returnedList);
