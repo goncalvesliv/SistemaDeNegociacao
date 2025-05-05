@@ -1,5 +1,5 @@
 # 🧾 Sistema de Negociação de Ativos
-**Video Projeto Rodando** : https://drive.google.com/file/d/1K3fkBF4rF2gVY9Iq74HIibx0Nbuoiu1v/view?usp=drive_link
+**Video Projeto Rodando** : https://drive.google.com/file/d/1K3fkBF4rF2gVY9Iq74HIibx0Nbuoiu1v/view?usp=sharing
 
 ## 📌 Descrição
 
